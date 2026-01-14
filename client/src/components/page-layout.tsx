@@ -35,7 +35,7 @@ export default function PageLayout({ children, title }: PageLayoutProps) {
               <span className="text-lg font-semibold text-white">{title}</span>
             </div>
           </div>
-          <Button variant="ghost" size="sm" onClick={handleLogout} className="gap-2">
+          <Button variant="ghost" size="sm" onClick={handleLogout} className="gap-2 hover:text-blue-500 hover:cursor-pointer">
             <LogOut className="h-4 w-4" />
             <span className="hidden sm:inline">Logout</span>
           </Button>

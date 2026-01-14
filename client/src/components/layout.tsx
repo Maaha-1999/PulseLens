@@ -168,7 +168,7 @@ export default function Layout({ children }: LayoutProps) {
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="h-8 w-8 text-muted-foreground hover:text-destructive hover:bg-destructive/10 rounded-full shrink-0"
+                  className="h-8 w-8 text-muted-foreground hover:text-blue-500 hover:bg-blue-500/10 rounded-full shrink-0 hover:cursor-pointer"
                   onClick={handleLogout}
                 >
                   <LogOut className="w-4 h-4" />

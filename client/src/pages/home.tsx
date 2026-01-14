@@ -67,7 +67,7 @@ export default function Home() {
                 {user.email}
               </span>
             )}
-            <Button variant="ghost" size="sm" onClick={handleLogout} className="gap-2">
+            <Button variant="ghost" size="sm" onClick={handleLogout} className="gap-2 hover:text-blue-500 hover:cursor-pointer">
               <LogOut className="h-4 w-4" />
               <span className="hidden sm:inline">Logout</span>
             </Button>

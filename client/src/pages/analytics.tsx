@@ -381,7 +381,7 @@ export default function Analytics() {
                 Engagement Trends (Recent Activity)
               </CardTitle>
             </CardHeader>
-            <CardContent className="h-[250px] sm:h-[300px]">
+            <CardContent className="h-[250px] sm:h-[300px] pr-6 pl-0 min-w-0 min-h-0">
               {engagementTrends.length === 0 ? (
                 <div className="flex items-center justify-center h-full text-sm text-muted-foreground">
                   No data available for the last 7 days
@@ -512,7 +512,7 @@ export default function Analytics() {
                 Platform Distribution
               </CardTitle>
             </CardHeader>
-            <CardContent className="h-[250px] sm:h-[300px]">
+            <CardContent className="h-[250px] sm:h-[300px] pr-4">
               {platformDistribution.length === 0 ? (
                 <div className="flex items-center justify-center h-full text-sm text-muted-foreground">
                   No platform data available
@@ -583,7 +583,7 @@ export default function Analytics() {
                   <BarChart
                     data={engagementByPlatform}
                     layout="vertical"
-                    margin={{ left: 70, right: 10, top: 10, bottom: 10 }}
+                    margin={{ left: 10, right: 10, top: 8, bottom: 8 }}
                   >
                     <CartesianGrid
                       strokeDasharray="3 3"
@@ -607,7 +607,7 @@ export default function Analytics() {
                       fontSize={11}
                       tickLine={false}
                       axisLine={false}
-                      width={70}
+                      width={90}
                     />
                     <Tooltip
                       cursor={{ fill: "rgba(255,255,255,0.05)" }}
@@ -618,7 +618,7 @@ export default function Analytics() {
                       itemStyle={{ color: "#e2e8f0" }}
                       formatter={(value: number) => [value.toLocaleString(), "Engagements"]}
                     />
-                    <Bar dataKey="engagement" radius={[0, 4, 4, 0]} barSize={32}>
+                    <Bar dataKey="engagement" radius={[0, 4, 4, 0]} barSize={28}>
                       {engagementByPlatform.map((entry, index) => (
                         <Cell key={`cell-${index}`} fill={entry.color} />
                       ))}

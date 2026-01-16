@@ -234,9 +234,20 @@ export default function Today() {
                                     </span>
                                   )}
                                 </div>
-                                <p className="text-sm text-foreground/90 leading-relaxed">
-                                  {entry.narrative || "No narrative"}
-                                </p>
+                                {entry.links && entry.links.trim() ? (
+                                  <a
+                                    href={entry.links}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-sm text-blue-400 leading-relaxed hover:text-blue-300 hover:underline transition-colors inline-block"
+                                  >
+                                    {entry.narrative || "No narrative"}
+                                  </a>
+                                ) : (
+                                  <p className="text-sm text-foreground/90 leading-relaxed">
+                                    {entry.narrative || "No narrative"}
+                                  </p>
+                                )}
                                 {entry.location && entry.location !== "Unknown" && (
                                   <p className="text-xs text-muted-foreground mt-1">
                                     {entry.location}

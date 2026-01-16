@@ -575,7 +575,7 @@ export default function Analytics() {
             </CardHeader>
             <CardContent className="h-[250px] sm:h-[300px]">
               {engagementByPlatform.length === 0 ? (
-                <div className="flex items-center justify-center h-full text-sm text-muted-foreground">
+                <div className="flex items-center justify-center pl-0 h-full text-sm text-muted-foreground">
                   No engagement data available
                 </div>
               ) : (
@@ -583,7 +583,7 @@ export default function Analytics() {
                   <BarChart
                     data={engagementByPlatform}
                     layout="vertical"
-                    margin={{ left: 10, right: 10, top: 8, bottom: 8 }}
+                    margin={{ left: 5, right: 10, top: 8, bottom: 8 }}
                   >
                     <CartesianGrid
                       strokeDasharray="3 3"
@@ -607,7 +607,7 @@ export default function Analytics() {
                       fontSize={11}
                       tickLine={false}
                       axisLine={false}
-                      width={90}
+                      width={60}
                     />
                     <Tooltip
                       cursor={{ fill: "rgba(255,255,255,0.05)" }}

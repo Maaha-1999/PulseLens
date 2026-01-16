@@ -34,7 +34,40 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setLoading(false);
     });
 
-    return () => subscription.unsubscribe();
+    // Auto logout when browser/tab closes
+    const handleBeforeUnload = async () => {
+      // Sign out from Supabase
+      await supabase.auth.signOut();
+    };
+
+    // Add event listener for when user closes the tab/browser
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
+    // Alternative: Clear session on page visibility change (when tab becomes hidden)
+    const handleVisibilityChange = async () => {
+      if (document.visibilityState === 'hidden') {
+        // Store a timestamp when the page becomes hidden
+        sessionStorage.setItem('lastHiddenTime', Date.now().toString());
+      } else if (document.visibilityState === 'visible') {
+        // Check if it's been a while since the page was hidden
+        const lastHiddenTime = sessionStorage.getItem('lastHiddenTime');
+        if (lastHiddenTime) {
+          const timeDiff = Date.now() - parseInt(lastHiddenTime);
+          // If more than 5 minutes (300000ms), consider it a new session and logout
+          if (timeDiff > 300000) {
+            await supabase.auth.signOut();
+          }
+        }
+      }
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
+    return () => {
+      subscription.unsubscribe();
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
   }, []);
 
   const signIn = async (email: string, password: string) => {

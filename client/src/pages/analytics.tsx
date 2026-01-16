@@ -512,22 +512,22 @@ export default function Analytics() {
                 Platform Distribution
               </CardTitle>
             </CardHeader>
-            <CardContent className="h-[250px] sm:h-[300px] pr-4">
+            <CardContent className="h-[250px] sm:h-[300px] pl-0 pr-6">
               {platformDistribution.length === 0 ? (
                 <div className="flex items-center justify-center h-full text-sm text-muted-foreground">
                   No platform data available
                 </div>
               ) : (
                 <div className="flex h-full items-center">
-                  <div className="w-1/2 h-full">
+                  <div className="w-1/2 h-full min-w-0">
                     <ResponsiveContainer width="100%" height="100%">
                       <PieChart>
                         <Pie
                           data={platformDistribution}
                           cx="50%"
                           cy="50%"
-                          innerRadius={50}
-                          outerRadius={80}
+                          innerRadius="35%"
+                          outerRadius="70%"
                           paddingAngle={2}
                           dataKey="value"
                         >
@@ -546,7 +546,7 @@ export default function Analytics() {
                       </PieChart>
                     </ResponsiveContainer>
                   </div>
-                  <div className="w-1/2 flex flex-col gap-2 pl-4">
+                  <div className="w-1/2 flex flex-col gap-2 pl-4 min-w-0">
                     {platformDistribution.slice(0, 6).map((item) => {
                       const total = platformDistribution.reduce((sum, p) => sum + p.value, 0);
                       const percent = ((item.value / total) * 100).toFixed(1);

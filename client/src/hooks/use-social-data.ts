@@ -41,27 +41,6 @@ export function useSocialData(topicId: string) {
         console.log("📄 First row data:", data[0]);
       } else {
         console.warn(`⚠️ NO DATA returned from table "${tableName}"!`);
-        console.warn(`
- 🔍 TROUBLESHOOTING STEPS:
-1. ✅ Connection works (no error)
-2. ❌ Table returned 0 rows
-
-MOST LIKELY CAUSE: Row Level Security (RLS) is blocking access
-
- 📝 TO FIX:
-1. Go to: https://iabkwkrcxpixxijozrvx.supabase.co
-2. Click "Authentication" → "Policies"
-3. Find table "${tableName}"
-4. Click "New Policy" → "Get started quickly"
-5. Choose "Enable read access for all users"
-6. Click "Review" then "Save policy"
-
- OR disable RLS entirely:
-1. Go to Table Editor
-2. Click on "${tableName}" table
-3. Click the settings icon
-4. Toggle "Enable Row Level Security" OFF
-        `);
       }
 
       // Normalize date string - keep YYYY-MM-DD format, extract date part from ISO strings
@@ -107,6 +86,9 @@ MOST LIKELY CAUSE: Row Level Security (RLS) is blocking access
         const rawNarrative = row.narrative || row.Narrative || row.message || row.Message || "";
         const narrativeValue = restoreSpaces(rawNarrative);
 
+        // Extract links field (handle different column name variations)
+        const linksValue = row.links || row.Links || row.link || row.Link || null;
+
         const result = {
           id: row.id || row.ID || `${tableName}-${index}`,
           accountName: row.account || row.Account || row.account_name || row.Account_Name || `Account ${index}`,
@@ -119,6 +101,7 @@ MOST LIKELY CAUSE: Row Level Security (RLS) is blocking access
           date: dateValue,
           dateFrom: dateFromValue,
           dateTo: dateToValue,
+          links: linksValue, // Add links to result
         };
         return result;
       }) as SocialPost[];

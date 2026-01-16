@@ -12,6 +12,7 @@ export interface SocialPost {
   date: string;
   dateFrom?: string;
   dateTo?: string;
+  links?: string | null; // Added links field
 }
 
 const PLATFORMS = ["Twitter", "Facebook", "Instagram", "LinkedIn"] as const;
@@ -31,6 +32,7 @@ const generateData = (topic: string, count: number): SocialPost[] => {
       narrative: `Discussion about ${topic} trends and impact on local communities. key takeaways include...`,
       geoCoordinates: `${(Math.random() * 180 - 90).toFixed(4)}, ${(Math.random() * 360 - 180).toFixed(4)}`,
       date: format(date, "yyyy-MM-dd"),
+      links: null, // Default to null for mock data
     };
   });
 };

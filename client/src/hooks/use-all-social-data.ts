@@ -49,6 +49,9 @@ export function useAllSocialData() {
           const rawDatePrimary = rawDateFrom || rawDateTo || row.date || row.Date || row.created_at || "";
 
           const rawNarrative = row.narrative || row.Narrative || row.message || row.Message || "";
+          
+          // Extract links field
+          const linksValue = row.links || row.Links || row.link || row.Link || null;
 
           return {
             id: row.id || row.ID || `${tableName}-${index}`,
@@ -63,6 +66,7 @@ export function useAllSocialData() {
             dateFrom: normalizeDate(rawDateFrom),
             dateTo: normalizeDate(rawDateTo),
             source: tableName,
+            links: linksValue, // Add links field
           } as SocialPost;
         });
 

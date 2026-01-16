@@ -23,7 +23,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Search, SlidersHorizontal, Twitter, Instagram, Linkedin, MapPin, Globe } from "lucide-react";
+import { Search, SlidersHorizontal, Twitter, Instagram, Linkedin, MapPin, Globe, ExternalLink } from "lucide-react";
 
 interface DataTableProps {
   data: SocialPost[];
@@ -47,7 +47,12 @@ export default function DataTable({
     dateFrom: true,
     dateTo: true,
   });
-  const [selectedNarrative, setSelectedNarrative] = useState<{ narrative: string; accountName: string; handle: string } | null>(null);
+  const [selectedNarrative, setSelectedNarrative] = useState<{ 
+    narrative: string; 
+    accountName: string; 
+    handle: string;
+    links: string | null;
+  } | null>(null);
 
   const getPlatformIcon = (platform: string) => {
     switch (platform) {
@@ -57,6 +62,24 @@ export default function DataTable({
       case "LinkedIn": return <Linkedin className="w-4 h-4 text-blue-600" />;
       default: return null;
     }
+  };
+
+  const handleNarrativeClick = (post: SocialPost) => {
+    setSelectedNarrative({ 
+      narrative: post.narrative, 
+      accountName: post.accountName, 
+      handle: post.handle,
+      links: post.links || null
+    });
+  };
+
+  const handleLinkClick = (e: React.MouseEvent, url: string) => {
+    e.preventDefault();
+    // Ensure the URL has a protocol
+    const fullUrl = url.startsWith('http://') || url.startsWith('https://') 
+      ? url 
+      : `https://${url}`;
+    window.open(fullUrl, '_blank', 'noopener,noreferrer');
   };
 
   return (
@@ -207,17 +230,18 @@ export default function DataTable({
 
                   {visibleColumns.narrative && (
                     <TableCell className="min-w-[200px]">
-                      <p 
-                        className="text-xs text-muted-foreground line-clamp-2 whitespace-normal break-words cursor-pointer hover:text-foreground transition-colors"
-                        onClick={() => setSelectedNarrative({ 
-                          narrative: post.narrative, 
-                          accountName: post.accountName, 
-                          handle: post.handle 
-                        })}
-                        title="Click to view full narrative"
-                      >
-                        {post.narrative}
-                      </p>
+                      <div className="flex items-center gap-2">
+                        <p 
+                          className="text-xs text-muted-foreground line-clamp-2 whitespace-normal break-words cursor-pointer hover:text-foreground transition-colors flex-1"
+                          onClick={() => handleNarrativeClick(post)}
+                          title="Click to view full narrative"
+                        >
+                          {post.narrative}
+                        </p>
+                        {post.links && (
+                          <ExternalLink className="w-3 h-3 text-primary shrink-0" title="Has link" />
+                        )}
+                      </div>
                     </TableCell>
                   )}
 
@@ -247,9 +271,19 @@ export default function DataTable({
             </DialogTitle>
           </DialogHeader>
           <div className="mt-4">
-            <p className="text-sm text-muted-foreground whitespace-pre-wrap leading-relaxed">
-              {selectedNarrative?.narrative}
-            </p>
+            {selectedNarrative?.links ? (
+              <p 
+                className="text-sm text-foreground whitespace-pre-wrap leading-relaxed cursor-pointer hover:text-primary transition-colors underline decoration-primary/50 hover:decoration-primary"
+                onClick={(e) => handleLinkClick(e, selectedNarrative.links!)}
+                title="Click to open link"
+              >
+                {selectedNarrative?.narrative}
+              </p>
+            ) : (
+              <p className="text-sm text-muted-foreground whitespace-pre-wrap leading-relaxed">
+                {selectedNarrative?.narrative}
+              </p>
+            )}
           </div>
         </DialogContent>
       </Dialog>
